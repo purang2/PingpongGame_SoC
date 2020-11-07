@@ -98,7 +98,7 @@ endmodule
 ```
 
 
-#### 설계/설명
+#### [설계/설명]
 
 <img src="/SOC발표JPG/SoC 텀프 최종 발표_0007.jpg" height="60%" width="60%">
 
