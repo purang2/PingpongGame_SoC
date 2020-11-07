@@ -1,4 +1,4 @@
-# 핑퐁게임: SOC 설계 및 프로그래밍(System-On-chip Design & Programming Project: Pingpong Game)  
+# 핑퐁게임: SOC 설계 및 프로그래밍 팀 프로젝트 (System-On-chip Design & Programming Team/Term Project: Pingpong Game)  
 
 ---
 
