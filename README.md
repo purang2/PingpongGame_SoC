@@ -125,6 +125,8 @@ endmodule
 
 ---
 
+#### [설계/설명]
+
 <img src="/SOC발표JPG/SoC 텀프 최종 발표_0012.jpg" height="100%" width="100%">
 
 <img src="/SOC발표JPG/SoC 텀프 최종 발표_0013.jpg" height="100%" width="100%">
