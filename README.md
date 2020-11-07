@@ -65,6 +65,183 @@ SOC의 Main Logic을 제어하는 두뇌 역할. HW의 IP별 Port를 Read/Write�
 
 ## TFT LCD를 제어하는 IP 
 
+### [verilog 코드]
+
+```
+module TFTLCDCtrl
+(
+   input CLK,                                 // = 25MHz
+   input nRESET,                                //  ?
+   input [1:0] mode,                   // It comes from <Mode AXI Register> <4 modes = 2 bits>                //  Declarations For SoC Programming 
+   input [3:0] button,                 // It comes from <Switch AXI Register> < 4 buttons = 4 bits>
+  output TCLK,                   // TFT needs <12.5MHz>
+  output reg Hsync,       // TFT-LCD HSYNC
+  output reg Vsync,	     // TFT-LCD VSYNC
+  output wire DE_out,	 // TFT-LCD Data enable ( Alaways "1" )
+  output [7:3] R,            
+  output [7:2] G,            
+  output [7:3] B,         
+  output Tpower            // Backlight  ( Always "1" )
+);
+
+parameter HCNT             =  524;          // 0~524 Counter
+parameter VCNT             =  285;          // 0~285 Counter
+parameter WIDTH           =  480;         // Active Width Area
+parameter HEIGHT         =  272;         // Active Height Area
+parameter HDELAY        =  40;            // At <hcnt = 41>, HSYNC is rising.
+parameter VDELAY        =  9;              // At <vcnt = 10>, VSYNC is rising.
+parameter EN_DELAY        =  2;
+
+parameter PADDLE_HEIGHT         =  100;
+parameter PADDLE_WIDTH           =  20;
+parameter PADDLE_COL_P1         =  0;
+parameter PADDLE_COL_P2         =  WIDTH - PADDLE_WIDTH;
+parameter BALL_SIZE                     = 10;
+
+parameter CORR_X = 43;                  // hDE = 44~523 High
+parameter CORR_Y = 12;                  // vDE = 13~284 High
+
+wire [9:0] hcnt, vcnt;
+wire vDE, hDE;
+wire Vsyncimage, Hsyncimage;
+
+wire Draw_Ball, Draw_Paddle_P1, Draw_Paddle_P2;
+wire [8:0] Paddle_Y_P1, Paddle_Y_P2;
+wire [8:0] Ball_X, Ball_Y;
+wire Draw_Any;
+wire Game_Active;
+
+assign Tpower = 1'd1;
+assign DE_out = 1'd1;
+assign DEimage = hDE & vDE;
+
+// The reason why this always block is written ?
+always @ (posedge TCLK or negedge nRESET)
+    begin
+      if (nRESET == 1'd0)
+      begin
+        Vsync <= 1'b0;
+        Hsync <= 1'b0;
+      end
+      else
+      begin
+        Vsync <= Vsyncimage;
+        Hsync <= Hsyncimage;
+      end
+    end 
+
+// Clock Generator ( 25MHz ---> 12.5 MHz )
+clk_divider clk_divider_U0
+(
+    .clk(CLK),
+    .nrst(nRESET),
+    .oclk(TCLK)
+) ;
+
+// Hsync Generator (By Hsync Counter)
+sync_generator #(.SYNC_DELAY(HDELAY),   .EN_DELAY(EN_DELAY),  .COUNT(HCNT)) Hsync_generator_U0
+(
+    .clk(TCLK),
+    .nrst(nRESET),
+    .cnt(hcnt),
+    .sync(Hsyncimage),
+    .de(hDE),
+    .fall_sync(hclk)
+);
+
+// Vsync Generator (By Vsync Coutner) ( clocked by <HSYNC> )
+sync_generator #(.SYNC_DELAY(VDELAY),   .EN_DELAY(EN_DELAY),  .COUNT(VCNT)) Vsync_generator_U0
+(
+    .clk(hclk),
+    .nrst(nRESET),
+    .cnt(vcnt),
+    .sync(Vsyncimage),
+    .de(vDE)
+);
+
+// RGB Drawing Logic ( Location is always set by Hcount, Vcount, <mode STATUS>)
+// Ball, Paddle 1, Paddle 2  -  Logics
+paddle_cltr 
+#(
+    .PADDLE_X(PADDLE_COL_P1),
+    .PADDLE_WIDTH(PADDLE_WIDTH), 
+    .PADDLE_HEIGHT(PADDLE_HEIGHT),  
+    .GAME_HEIGHT(HEIGHT),
+    .CORR_X(CORR_X),
+    .CORR_Y(CORR_Y)
+) paddle_P1
+(
+    .clk(TCLK),
+    .nrst(nRESET),
+    .vcnt(vcnt),
+    .hcnt(hcnt),
+    .de(DEimage),
+    .up_Paddle(button[0]),
+    .down_Paddle(button[1]),
+    .move_en(mode[0] & mode[1]),
+    // Input & Output
+    .draw_Paddle(Draw_Paddle_P1),
+    .paddle_Y(Paddle_Y_P1)
+);
+
+paddle_cltr 
+#(
+    .PADDLE_X(PADDLE_COL_P2),
+    .PADDLE_WIDTH(PADDLE_WIDTH), 
+    .PADDLE_HEIGHT(PADDLE_HEIGHT),  
+    .GAME_HEIGHT(HEIGHT),
+    .CORR_X(CORR_X),
+    .CORR_Y(CORR_Y)
+) paddle_P2
+(
+    .clk(TCLK),
+    .nrst(nRESET),
+    .vcnt(vcnt),
+    .hcnt(hcnt),
+    .de(DEimage),
+    .up_Paddle(button[2]),
+    .down_Paddle(button[3]),
+    .move_en(mode[0] & mode[1]),
+    // Input & Output
+    .draw_Paddle(Draw_Paddle_P2),
+    .paddle_Y(Paddle_Y_P2)
+);
+
+ball_cltr
+#(
+    .GAME_WIDTH(WIDTH), 
+    .GAME_HEIGHT(HEIGHT),   
+    .BALL_SIZE(BALL_SIZE),
+    .CORR_X(CORR_X),
+    .CORR_Y(CORR_Y)
+) 
+ball_U0
+(
+    .clk(TCLK),
+    .nrst(nRESET),
+    .vcnt(vcnt),
+    .hcnt(hcnt),
+    .de(DEimage),
+    .game_active(Game_Active),
+    // Input & Output
+    .draw_Ball(Draw_Ball),
+    .ball_X(Ball_X),
+    .ball_Y(Ball_Y)
+);
+
+// Exception Control ( Ball is OUT(next game), Game is Over )
+
+// State Infomation ( mode = 00 --> Basic mode / = 01 --> Ready mode / = 10 --> Score mode / = 11 --> Game mode
+assign Game_Active = mode[0] & mode[1] ? 1'd1 : 1'd0;                                                        // In the Game mode, The Ball starts moving.
+assign Draw_Any = mode[0] ? Draw_Ball | Draw_Paddle_P1 | Draw_Paddle_P2 : 1'd0;     // Only <Ready , Game mode> draw something
+
+// Drawing
+assign R = Draw_Any ?  5'b1_1111 : 5'b0_0000;           // Red or Green
+assign G = Draw_Any ?  6'b00_0000 : 6'b11_1111;
+assign B = Draw_Any ?  5'b0_0000 : 5'b0_0000;
+
+endmodule
+```
 
 #### [설계/설명]
 
@@ -112,11 +289,293 @@ endmodule
 
 ## Text LCD를 제어하는 IP
 
+
+#### [설계/설명]
 <img src="/SOC발표JPG/SoC 텀프 최종 발표_0010.jpg" height="60%" width="60%">
+
+### [verilog 코드]
+
+```
+module textlcd(
+input	wire			resetn,			// reset
+input	wire			lcdclk,			// clock
+
+input 	wire [31:0]	reg_a,
+input	wire [31:0]	reg_b,
+input	wire [31:0]	reg_c,
+input	wire [31:0]	reg_d,
+input	wire [31:0]	reg_e,
+input	wire [31:0]	reg_f,
+input	wire [31:0]	reg_g,
+input	wire [31:0]	reg_h,
+
+output	wire			lcd_rs,			// register selection
+output	wire			lcd_rw,			// read / write
+output	reg				lcd_en,			// lcd enable
+output	wire	[7:0]	lcd_data		// data for CG / DDRAM
+);
+
+// data line for printing on text lcd
+//parameter	[31:0]	reg_a		=	32'h54_65_78_74;	// Text
+//parameter	[31:0]	reg_b		=	32'h2d_4c_43_44;	// -LCD 
+//parameter	[31:0]	reg_c		=	32'h20_43_6f_6e;	// Con
+//parameter	[31:0]	reg_d		=	32'h74_72_6f_6c;	// trol
+//parameter	[31:0]	reg_e		=	32'h53_75_63_63;	// Succ 
+//parameter	[31:0]	reg_f		=	32'h65_73_73_20;	// ess
+//parameter	[31:0]	reg_g		=	32'h53_6f_43_20;	// SoC
+//parameter	[31:0]	reg_h		=	32'h4c_61_62_20;	// Lab
+
+// define mode
+parameter	[3:0]	mode_pwron	=	4'd1;				// power on
+parameter	[3:0]	mode_fnset	=	4'd2;				// function set
+parameter	[3:0]	mode_onoff	=	4'd3;				// display on / off control
+parameter	[3:0]	mode_entr1	=	4'd4;				// 
+parameter	[3:0]	mode_entr2	=	4'd5;				// 
+parameter	[3:0]	mode_entr3	=	4'd6;				// 
+parameter	[3:0]	mode_seta1	=	4'd7;				// set addr 1st line
+parameter	[3:0]	mode_wr1st	=	4'd8;				// write 1st line
+parameter	[3:0]	mode_seta2	=	4'd9;				// set addr 2nd line
+parameter	[3:0]	mode_wr2nd	=	4'd10;				// write 2nd line
+parameter	[3:0]	mode_delay	=	4'd11;				// dealy
+
+reg		[10:0]	count_lcdclk;		// clock counter
+reg		[5:0]	count_mode;			// mode state counter
+reg		[3:0]	lcd_mode;			// mode state
+reg		[9:0]	set_data;			// set data decoder
+
+// enable signal
+always@(posedge lcdclk or negedge resetn)
+begin
+	if(resetn == 1'b0) begin
+		lcd_en <= 1'b0;
+	end
+	else begin
+		if(count_lcdclk == 11'd200) begin
+			lcd_en <= 1'b1;
+		end
+		else if(count_lcdclk == 11'd1800) begin
+			lcd_en <= 1'b0;
+		end
+		else begin
+			lcd_en <= lcd_en;
+		end
+	end
+end
+
+// clock counter 
+always@(posedge lcdclk or negedge resetn)
+begin	
+	if(resetn == 1'b0) begin
+		count_lcdclk <= 11'd0;
+	end
+	else begin
+		if(count_lcdclk < 11'd1999) begin
+			count_lcdclk <= count_lcdclk + 11'd1;
+		end
+		else begin
+			count_lcdclk <= 11'd0;
+		end
+	end
+end
+
+// mode state counter
+always@(posedge lcdclk or negedge resetn)
+begin
+	if(resetn == 1'b0) begin
+		count_mode <= 6'd0;
+	end
+	else begin
+		if(count_lcdclk == 11'd1999) begin 
+			if(count_mode < 6'd40) begin
+				count_mode <= count_mode + 6'd1;
+			end
+			else begin
+				count_mode <= 6'd7;
+			end
+		end
+		else begin
+			count_mode <= count_mode;
+		end
+	end
+end
+
+// mode state
+always@(posedge lcdclk or negedge resetn)
+begin
+	if(resetn == 1'b0) begin
+		lcd_mode <= mode_pwron;
+	end
+	else begin
+		// mode change
+		case(count_mode)
+			6'd0	:	lcd_mode	<=	mode_pwron;
+			6'd1	:	lcd_mode	<=	mode_fnset;
+			6'd2	:	lcd_mode	<=	mode_onoff;
+			6'd3	:	lcd_mode	<=	mode_entr1;
+			6'd4	:	lcd_mode	<=	mode_entr2;
+			6'd5	:	lcd_mode	<=	mode_entr3;
+			6'd6	:	lcd_mode	<=	mode_seta1;
+			6'd7	:	lcd_mode	<=	mode_wr1st;
+			6'd23	:	lcd_mode	<=	mode_seta2;
+			6'd24	:	lcd_mode	<=	mode_wr2nd;
+			6'd40	:	lcd_mode	<=	mode_delay;
+			default	:	lcd_mode	<=	lcd_mode;
+		endcase	
+	end
+end
+
+// assign output
+assign lcd_rs	=	set_data[9];
+assign lcd_rw	=	set_data[8];
+assign lcd_data	=	set_data[7:0];
+
+// set data decoder 
+always @(lcd_mode or count_mode or reg_a or reg_b or reg_c or reg_d or reg_e or reg_f or reg_g or reg_h)
+begin 
+	case(lcd_mode)
+		mode_pwron	:	set_data = {2'b00, 8'h38};
+		mode_fnset	:	set_data = {2'b00, 8'h38};
+		mode_onoff	:	set_data = {2'b00, 8'h0e};
+		mode_entr1	:	set_data = {2'b00, 8'h06};
+		mode_entr2	:	set_data = {2'b00, 8'h02};
+		mode_entr3	:	set_data = {2'b00, 8'h01};
+		mode_seta1	:	set_data = {2'b00, 8'h80};
+		mode_wr1st	:
+		begin
+			case(count_mode)
+				6'd7	:	set_data = {1'b1, 1'b0, reg_a[31:24]};
+				6'd8	:	set_data = {1'b1, 1'b0, reg_a[23:16]};
+				6'd9	:	set_data = {1'b1, 1'b0, reg_a[15: 8]}; 
+				6'd10	:	set_data = {1'b1, 1'b0, reg_a[7 : 0]}; 
+				6'd11	:	set_data = {1'b1, 1'b0, reg_b[31:24]};
+				6'd12	:	set_data = {1'b1, 1'b0, reg_b[23:16]};
+				6'd13	:	set_data = {1'b1, 1'b0, reg_b[15: 8]}; 
+				6'd14	:	set_data = {1'b1, 1'b0, reg_b[7 : 0]}; 
+				6'd15	:	set_data = {1'b1, 1'b0, reg_c[31:24]};
+				6'd16	:	set_data = {1'b1, 1'b0, reg_c[23:16]};
+				6'd17	:	set_data = {1'b1, 1'b0, reg_c[15: 8]}; 
+				6'd18	:	set_data = {1'b1, 1'b0, reg_c[7 : 0]}; 
+				6'd19	:	set_data = {1'b1, 1'b0, reg_d[31:24]};
+				6'd20	:	set_data = {1'b1, 1'b0, reg_d[23:16]};
+				6'd21	:	set_data = {1'b1, 1'b0, reg_d[15: 8]};
+				default :	set_data = {1'b1, 1'b0, reg_d[7 : 0]};
+			endcase
+		end
+		mode_seta2	:	set_data = {2'b00, 8'ha8};
+		mode_wr2nd	: 
+		begin
+			case(count_mode)
+				6'd24	:	set_data = {1'b1, 1'b0, reg_e[31:24]};
+				6'd25	:	set_data = {1'b1, 1'b0, reg_e[23:16]};
+				6'd26	:	set_data = {1'b1, 1'b0, reg_e[15: 8]}; 
+				6'd27	:	set_data = {1'b1, 1'b0, reg_e[7 : 0]}; 
+				6'd28	:	set_data = {1'b1, 1'b0, reg_f[31:24]};
+				6'd29	:	set_data = {1'b1, 1'b0, reg_f[23:16]};
+				6'd30	:	set_data = {1'b1, 1'b0, reg_f[15: 8]}; 
+				6'd31	:	set_data = {1'b1, 1'b0, reg_f[7 : 0]}; 
+				6'd32	:	set_data = {1'b1, 1'b0, reg_g[31:24]};
+				6'd33	:	set_data = {1'b1, 1'b0, reg_g[23:16]};
+				6'd34	:	set_data = {1'b1, 1'b0, reg_g[15: 8]}; 
+				6'd35	:	set_data = {1'b1, 1'b0, reg_g[7 : 0]}; 
+				6'd36	:	set_data = {1'b1, 1'b0, reg_h[31:24]};
+				6'd37	:	set_data = {1'b1, 1'b0, reg_h[23:16]};
+				6'd38	:	set_data = {1'b1, 1'b0, reg_h[15: 8]};
+				default :	set_data = {1'b1, 1'b0, reg_h[7 : 0]};
+			endcase
+		end
+		default		:	set_data = {2'b00, 8'h02};
+	endcase
+end
+
+endmodule
+
+
+```
 
 ## 7-Segment를 제어하는 IP
 
+#### [설계/설명]
 <img src="/SOC발표JPG/SoC 텀프 최종 발표_0011.jpg" height="60%" width="60%">
+
+### [Verilog 코드]
+
+```
+module seven_seg(
+input	wire			resetn,
+input	wire			clk,
+input	wire	[31:0]	data, 
+output	reg		[7:0]	seg_en, 
+output	reg		[7:0]	seg_data
+);
+
+wire	[7:0]	seg0;
+wire	[7:0]	seg1;
+wire	[7:0]	seg2;
+wire	[7:0]	seg3;
+wire	[7:0]	seg4;
+wire	[7:0]	seg5;
+wire	[7:0]	seg6;
+wire	[7:0]	seg7;
+
+reg		[14:0]	clk_cnt; 
+
+bin2seg	bin2seg_u0(	.bin(data[31:28]),	.seg(seg7)	);
+bin2seg	bin2seg_u1(	.bin(data[27:24]),	.seg(seg6)	);
+bin2seg	bin2seg_u2(	.bin(data[23:20]),	.seg(seg5)	);
+bin2seg	bin2seg_u3(	.bin(data[19:16]),	.seg(seg4)	);
+bin2seg	bin2seg_u4(	.bin(data[15:12]),	.seg(seg3)	);
+bin2seg	bin2seg_u5(	.bin(data[11:8 ]),	.seg(seg2)	);
+bin2seg	bin2seg_u6(	.bin(data[7 :4 ]),	.seg(seg1)	);
+bin2seg	bin2seg_u7(	.bin(data[3 :0 ]),	.seg(seg0)	);
+
+always @(posedge clk or negedge resetn)
+begin
+	if(!resetn) begin
+		clk_cnt <= 15'd0;
+	end
+	else begin
+		if(clk_cnt == 15'd16384) begin
+			clk_cnt <= 15'd0;
+		end
+		else begin
+			clk_cnt <= clk_cnt + 15'd1;
+		end
+	end
+end
+
+always @(posedge clk or negedge resetn)
+begin
+	if(!resetn) begin
+		seg_en <= 8'b0000_0001;
+	end
+	else begin
+		if(clk_cnt == 15'd16384) begin
+			seg_en <= {seg_en[6:0], seg_en[7]};
+		end
+		else begin
+			seg_en <= seg_en;
+		end
+	end
+end
+
+always @(seg_en or seg0 or seg1 or seg2 or seg3 or seg4 or seg5 or seg6 or seg7)
+begin
+	case(seg_en)
+		8'h01	:	seg_data = seg0;
+		8'h02	:	seg_data = seg1;
+		8'h04	:	seg_data = seg2;
+		8'h08	:	seg_data = seg3;
+		8'h10	:	seg_data = seg4;
+		8'h20	:	seg_data = seg5;
+		8'h40	:	seg_data = seg6;
+		8'h80	:	seg_data = seg7;
+		default	:	seg_data = 8'b1111_1111;
+	endcase
+end
+
+endmodule
+
+```
 
 
 ---
