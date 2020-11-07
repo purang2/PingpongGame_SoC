@@ -1,0 +1,10 @@
+
+
+OPTION psf_version = 2.1;
+
+BEGIN DRIVER tftlcd_pong
+	OPTION supported_peripherals = (tftlcd_pong);
+	OPTION copyfiles = all;
+	OPTION VERSION = 1.0;
+	OPTION NAME = tftlcd_pong;
+END DRIVER
