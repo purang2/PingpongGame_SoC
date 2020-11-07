@@ -1,6 +1,9 @@
 # SOC_20201
+
+---
 ### 설명(요약문)
 
+---
 SoC 설계 및 프로그래밍 강의를 수강하면서 제작한 프로젝트에 대한 내용을 정리/공유한 Github 포트폴리오입니다.
 
 - HW,SW Co-design을 통한 Ping-pong Game Logic을 구성 
