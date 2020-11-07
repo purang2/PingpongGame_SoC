@@ -4,6 +4,8 @@
 ### 설명(요약문)
 
 ---
+<img src="/SOC발표JPG/SoC 텀프 최종 발표_0003.jpg" ,height="50%" ,width="50%">
+
 SoC 설계 및 프로그래밍 강의를 수강하면서 제작한 프로젝트에 대한 내용을 정리/공유한 Github 포트폴리오입니다.
 
 - HW 설계 및 SW 프로그래밍의 Co-design을 통한 TFT LCD(게임 화면)과 4개의 Switch(방향키 제어) 기반의 Ping-pong Game을 제작 
