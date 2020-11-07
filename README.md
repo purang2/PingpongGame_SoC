@@ -18,7 +18,10 @@ Xilinx사의 Vivado라는 SoC 칩을 실습에 사용함
 
 - Verilog를 이용한 하드웨어(논리회로 IP 모듈)을 설계
 - 해당 하드웨어 모듈의 포트 번호를 받아 칩을 소프트웨어적으로 제어하기 위한 C언어 기반의 SDK Firmware를 설계함
-- 
+
+
+<img src="/SOC발표JPG/SoC 텀프 최종 발표_0001.jpg">
+
 
 ### 저장소 유형
 
