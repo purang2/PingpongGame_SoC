@@ -4,7 +4,7 @@
 ### 설명(요약문)
 
 ---
-<img src="/SOC발표JPG/SoC 텀프 최종 발표_0003.jpg" height="50%" width="50%">
+<img src="/SOC발표JPG/SoC 텀프 최종 발표_0003.jpg" height="80%" width="80%">
 
 SoC 설계 및 프로그래밍 강의를 수강하면서 제작한 프로젝트에 대한 내용을 정리/공유한 Github 포트폴리오입니다.
 
@@ -22,7 +22,6 @@ Xilinx사의 Vivado라는 SoC 칩을 실습에 사용함
 - 해당 하드웨어 모듈의 포트 번호를 받아 칩을 소프트웨어적으로 제어하기 위한 C언어 기반의 SDK Firmware를 설계함
 
 
-<img src="/SOC발표JPG/SoC 텀프 최종 발표_0003.jpg">
 
 
 ### 저장소 유형
