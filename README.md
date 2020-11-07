@@ -63,8 +63,9 @@ SOC의 Main Logic을 제어하는 두뇌 역할. HW의 IP별 Port를 Read/Write�
 
 ---
 
-- **TFT LCD를 제어하는 IP**
+**- TFT LCD를 제어하는 IP**
 
+- 
 #### verilog 코드
 
 ```
