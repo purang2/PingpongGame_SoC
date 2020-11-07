@@ -5,7 +5,7 @@ SoC설계 및 프로그래밍/수업 및 프로젝트/ 2020 1학기/경북대학
 SoC 설계 및 프로그래밍 시간에 제작한 프로젝트에 대한 내용을 정리/공유한 Github 포트폴리오입니다.
 
 - HW,SW Co-design을 통한 Ping-pong Game Logic을 구성 
-- HW-SW 데이터 통신 실시간/동적(Realtime and Dynamic)으로 화면 픽셀을 조절하여 두명의 플레이어 1p,2p가 즐길 수 있는 탁구 게임을 구현함.
+: HW-SW 데이터 통신 실시간/동적(Realtime and Dynamic)으로 화면 픽셀을 조절하여 두명의 플레이어 1p,2p가 즐길 수 있는 탁구 게임을 구현함.
 
 - SW개발 : Xilinx Vivado SoC Embedded Design&Programming Tool 
 - HW개발(SoC)  :  Text LCD와 LED, 7-Segment, TFT-LCD 화면(적당한 크기의 디스플레이 화면에 해당)이 탑재된 Xilinx Zynq-7000 SoC(System-on-Chip) Kit 이용 
