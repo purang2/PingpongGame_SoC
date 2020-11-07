@@ -42,13 +42,22 @@ Xilinx사의 Vivado라는 SoC 칩을 실습에 사용함
 ---
 
 <img src="/SOC발표JPG/SoC 텀프 최종 발표_0004.jpg" height="80%" width="80%">
+<img src="/SOC발표JPG/SoC 텀프 최종 발표_0006.jpg" height="80%" width="80%">
 
-Verilog를 통한 하드웨어 모듈(IP)을 설계함. 
-- Text LCD를 제어하는 IP
-- 7-Segment를 제어하는 IP
+Verilog를 통해서 SOC Kit에 탑재된 입출력을 제어하는 하드웨어 모듈(IP)을 설계함. 
+
 - TFT LCD를 제어하는 IP
+<img src="/SOC발표JPG/SoC 텀프 최종 발표_0007.jpg" height="80%" width="80%">
+<img src="/SOC발표JPG/SoC 텀프 최종 발표_0008.jpg" height="80%" width="80%">
+
 - PushButton을 제어하는 IP
-<img src="/SOC발표JPG/SoC 텀프 최종 발표_0005.jpg" height="80%" width="80%">
+<img src="/SOC발표JPG/SoC 텀프 최종 발표_0009.jpg" height="80%" width="80%">
+
+- Text LCD를 제어하는 IP
+<img src="/SOC발표JPG/SoC 텀프 최종 발표_0010.jpg" height="80%" width="80%">
+
+- 7-Segment를 제어하는 IP
+<img src="/SOC발표JPG/SoC 텀프 최종 발표_0011.jpg" height="80%" width="80%">
 
 
 ### 2. HARDWARE 설계 (AXI Registers IP)
