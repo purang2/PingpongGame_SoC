@@ -2,7 +2,7 @@
 
 ---
 
-### 저장소 유형
+# 저장소 유형
 
 ---
 
@@ -13,7 +13,7 @@
 
 
 ---
-### 설명(요약문)
+# 설명(요약문)
 
 ---
 
@@ -37,7 +37,7 @@ Xilinx사의 Vivado라는 SoC 칩을 실습에 사용함
 
 ---    
     
-### 1. 프로젝트 설명(개요)
+# 1. 프로젝트 설명(개요)
 
 
 ---
@@ -62,11 +62,18 @@ SOC의 Main Logic을 제어하는 두뇌 역할. HW의 IP별 Port를 Read/Write�
 
 
 
-### 2. HARDWARE 설계 (AXI Registers IP)
+# 2. HARDWARE 설계 (AXI Registers IP)
 
 ---
 
 ## TFT LCD를 제어하는 IP 
+
+#### [설계/설명]
+
+<img src="/SOC발표JPG/SoC 텀프 최종 발표_0007.jpg" height="60%" width="60%">
+
+<img src="/SOC발표JPG/SoC 텀프 최종 발표_0008.jpg" height="60%" width="60%">
+
 
 ### [verilog 코드]
 
@@ -246,13 +253,15 @@ assign B = Draw_Any ?  5'b0_0000 : 5'b0_0000;
 endmodule
 ```
 
-#### [설계/설명]
 
-<img src="/SOC발표JPG/SoC 텀프 최종 발표_0007.jpg" height="60%" width="60%">
-
-<img src="/SOC발표JPG/SoC 텀프 최종 발표_0008.jpg" height="60%" width="60%">
+---
 
 ## PushButton을 제어하는 IP
+
+#### [설계/설명]
+
+<img src="/SOC발표JPG/SoC 텀프 최종 발표_0009.jpg" height="60%" width="60%">
+
 
 ### [verilog 코드]
 
@@ -288,7 +297,8 @@ endmodule
 ```
 
 
-<img src="/SOC발표JPG/SoC 텀프 최종 발표_0009.jpg" height="60%" width="60%">
+---
+
 
 ## Text LCD를 제어하는 IP
 
