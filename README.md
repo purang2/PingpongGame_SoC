@@ -1,4 +1,4 @@
-# SOC_20201
+# 핑퐁게임_System-On-chip 설계 및 프로그래밍 
 
 ---
 ### 설명(요약문)
@@ -6,7 +6,7 @@
 ---
 SoC 설계 및 프로그래밍 강의를 수강하면서 제작한 프로젝트에 대한 내용을 정리/공유한 Github 포트폴리오입니다.
 
-- HW,SW Co-design을 통한 Ping-pong Game Logic을 구성 
+- HW 설계 및 SW 프로그래밍의 Co-design을 통한 TFT LCD(게임 화면)과 4개의 Switch(방향키 제어) 기반의 Ping-pong Game을 제작 
 : HW-SW 데이터 통신 실시간/동적(Realtime and Dynamic)으로 화면 픽셀을 조절하여 두명의 플레이어 1p,2p가 즐길 수 있는 탁구 게임을 구현함.
 
 - SW개발 : Xilinx Vivado SoC Embedded Design&Programming Tool 
