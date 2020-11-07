@@ -2,7 +2,7 @@
 
 ---
 
-# 저장소 유형
+## 저장소 유형
 
 ---
 
@@ -13,7 +13,7 @@
 
 
 ---
-# 설명(요약문)
+## 설명(요약문)
 
 ---
 
@@ -37,18 +37,18 @@ Xilinx사의 Vivado라는 SoC 칩을 실습에 사용함
 
 ---    
     
-# 1. 프로젝트 설명(개요)
+## 1. 프로젝트 설명(개요)
 
 
 ---
-#### Hardware 설계
+### Hardware 설계
 
 Verilog를 통해서 SOC Kit에 탑재된 입출력을 제어하는 하드웨어 모듈(IP)을 설계함. 
 
 <img src="/SOC발표JPG/SoC 텀프 최종 발표_0004.jpg" height="60%" width="60%">
 
 ---
-#### Software 설계
+### Software 설계
 
 C 기반의 SDK(Software Development Kit) 개발 툴을 통해서 프로그래밍 함.  
 
@@ -62,7 +62,7 @@ SOC의 Main Logic을 제어하는 두뇌 역할. HW의 IP별 Port를 Read/Write�
 
 
 
-# 2. HARDWARE 설계 (AXI Registers IP)
+## 2. HARDWARE 설계 (AXI Registers IP)
 
 ---
 
@@ -593,7 +593,7 @@ endmodule
 
 ---
 
-### 3. SOFTWARE 프로그래밍 (SDK, Firmware) 
+## 3. SOFTWARE 프로그래밍 (SDK, Firmware) 
 
 **C 코드를 통한 HW(SOC)의 레지스터(AXI) 값을 직접적으로 변경하여 상태를 전달/변경하여 제어하는 역할.**
 
@@ -606,7 +606,8 @@ endmodule
 <img src="/SOC발표JPG/SoC 텀프 최종 발표_0013.jpg" height="100%" width="100%">
 
 ---
-#### SDK 코드 
+
+### SDK 코드 
 
 
 ```c
