@@ -85,6 +85,13 @@ SOC의 Main Logic을 제어하는 두뇌 역할. HW의 IP별 Port를 Read/Write�
 
 ### 3. SOFTWARE 프로그래밍 (SDK, Firmware) 
 
+---
+
+<img src="/SOC발표JPG/SoC 텀프 최종 발표_0012.jpg" height="60%" width="60%">
+
+<img src="/SOC발표JPG/SoC 텀프 최종 발표_0013.jpg" height="60%" width="60%">
+
+
 
 
 
