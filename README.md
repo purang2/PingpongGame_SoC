@@ -35,7 +35,19 @@ Xilinx사의 Vivado라는 SoC 칩을 실습에 사용함
     
     
 ### 1. 프로젝트 설계
+
+
+#### Hardware 설계
+
+---
+
 <img src="/SOC발표JPG/SoC 텀프 최종 발표_0004.jpg" height="80%" width="80%">
+
+Verilog를 통한 하드웨어 모듈(IP)을 설계함. 
+- Text LCD를 제어하는 IP
+- 7-Segment를 제어하는 IP
+- TFT LCD를 제어하는 IP
+- PushButton을 제어하는 IP
 <img src="/SOC발표JPG/SoC 텀프 최종 발표_0005.jpg" height="80%" width="80%">
 
 
