@@ -34,8 +34,7 @@ Xilinx사의 Vivado라는 SoC 칩을 실습에 사용함
     ITEC412/SoC 설계 및 프로그래밍/2020년/1학기/문병인 교수님
     
     
-### 1. 프로젝트 설계
-
+### 1. 프로젝트 설명(개요)
 
 
 ---
@@ -46,8 +45,6 @@ Verilog를 통해서 SOC Kit에 탑재된 입출력을 제어하는 하드웨어
 <img src="/SOC발표JPG/SoC 텀프 최종 발표_0004.jpg" height="60%" width="60%">
 
 ---
-
----
 #### Software 설계
 
 C 기반의 SDK(Software Development Kit) 개발 툴을 통해서 프로그래밍 함.  
@@ -55,8 +52,8 @@ C 기반의 SDK(Software Development Kit) 개발 툴을 통해서 프로그래�
 SOC의 Main Logic을 제어하는 두뇌 역할. HW의 IP별 Port를 Read/Write하여 직접적으로 SW 제어문을 통해 HW를 실시간 제어함 
 
 <img src="/SOC발표JPG/SoC 텀프 최종 발표_0006.jpg" height="60%" width="60%">
----
 
+---
 
 
 
