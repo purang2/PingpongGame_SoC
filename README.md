@@ -35,6 +35,8 @@ Xilinx사의 Vivado라는 SoC 칩을 실습에 사용함
     
     
 ### 1. 프로젝트 설계
+<img src="/SOC발표JPG/SoC 텀프 최종 발표_0004.jpg" height="80%" width="80%">
+<img src="/SOC발표JPG/SoC 텀프 최종 발표_0005.jpg" height="80%" width="80%">
 
 
 ### 2. HARDWARE 설계 (AXI Registers IP)
