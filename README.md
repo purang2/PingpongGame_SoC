@@ -37,7 +37,9 @@ Xilinx사의 Vivado라는 SoC 칩을 실습에 사용함
 ### 1. 프로젝트 설계
 
 
-#### Hardware 설계
+
+---
+  #### Hardware 설계
 
 Verilog를 통해서 SOC Kit에 탑재된 입출력을 제어하는 하드웨어 모듈(IP)을 설계함. 
 
