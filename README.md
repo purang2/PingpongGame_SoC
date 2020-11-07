@@ -85,11 +85,13 @@ SOC의 Main Logic을 제어하는 두뇌 역할. HW의 IP별 Port를 Read/Write�
 
 ### 3. SOFTWARE 프로그래밍 (SDK, Firmware) 
 
+** C 코드를 통한 HW(SOC)의 레지스터(AXI) 값을 직접적으로 변경하여 상태를 전달/변경하여 제어하는 역할.**
+
 ---
 
-<img src="/SOC발표JPG/SoC 텀프 최종 발표_0012.jpg" height="60%" width="60%">
+<img src="/SOC발표JPG/SoC 텀프 최종 발표_0012.jpg" height="100%" width="100%">
 
-<img src="/SOC발표JPG/SoC 텀프 최종 발표_0013.jpg" height="60%" width="60%">
+<img src="/SOC발표JPG/SoC 텀프 최종 발표_0013.jpg" height="100%" width="100%">
 
 
 
