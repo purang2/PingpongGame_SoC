@@ -65,7 +65,7 @@ SOC의 Main Logic을 제어하는 두뇌 역할. HW의 IP별 Port를 Read/Write�
 
 **- TFT LCD를 제어하는 IP**
 
-#### [verilog 코드]
+## [verilog 코드]
 
 ```
   module Debounce_Switch (
@@ -105,6 +105,13 @@ endmodule
 <img src="/SOC발표JPG/SoC 텀프 최종 발표_0008.jpg" height="60%" width="60%">
 
 **- PushButton을 제어하는 IP**
+
+## [verilog 코드]
+
+```
+
+```
+
 
 <img src="/SOC발표JPG/SoC 텀프 최종 발표_0009.jpg" height="60%" width="60%">
 
