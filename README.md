@@ -28,3 +28,16 @@ Xilinx사의 Vivado라는 SoC 칩을 실습에 사용함
 - 수강정보
 
     ITEC412/SoC 설계 및 프로그래밍/2020년/1학기/문병인 교수님
+    
+    
+### 1. 프로젝트 설계
+
+
+### 2. HARDWARE 설계 (AXI Registers IP)
+
+
+### 3. SOFTWARE 프로그래밍 (SDK, Firmware) 
+
+
+
+
