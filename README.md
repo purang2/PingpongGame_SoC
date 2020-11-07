@@ -52,9 +52,9 @@ Verilog를 통해서 SOC Kit에 탑재된 입출력을 제어하는 하드웨어
 <img src="/SOC발표JPG/SoC 텀프 최종 발표_0007.jpg" height="60%" width="60%">
 <img src="/SOC발표JPG/SoC 텀프 최종 발표_0008.jpg" height="60%" width="60%">
 
-<details><summary>**- PushButton을 제어하는 IP</summary>
+**<details><summary>- PushButton을 제어하는 IP</summary>
 <img src="/SOC발표JPG/SoC 텀프 최종 발표_0009.jpg" height="60%" width="60%">
-</details>
+</details>**
 
 **- Text LCD를 제어하는 IP
 <img src="/SOC발표JPG/SoC 텀프 최종 발표_0010.jpg" height="60%" width="60%">
