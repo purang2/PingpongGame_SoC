@@ -4,7 +4,7 @@
 ### 설명(요약문)
 
 ---
-<img src="/SOC발표JPG/SoC 텀프 최종 발표_0003.jpg" ,height="50%" ,width="50%">
+<img src="/SOC발표JPG/SoC 텀프 최종 발표_0003.jpg" height="50%" width="50%">
 
 SoC 설계 및 프로그래밍 강의를 수강하면서 제작한 프로젝트에 대한 내용을 정리/공유한 Github 포트폴리오입니다.
 
