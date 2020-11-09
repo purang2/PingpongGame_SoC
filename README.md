@@ -34,6 +34,13 @@ Xilinx사의 Vivado라는 SoC 칩을 실습에 사용함
 - 해당 하드웨어 모듈의 포트 번호를 받아 칩을 소프트웨어적으로 제어하기 위한 C언어 기반의 SDK Firmware를 설계함
 
 
+---
+
+## 플레이 영상 링크
+
+[Youtube Soc Ping-pong](https://www.youtube.com/watch?v=fDxRxQ3u_t4&feature=youtu.be)
+
+
 
 ---    
     
