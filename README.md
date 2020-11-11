@@ -1,4 +1,4 @@
-# 핑퐁게임: SOC 설계 및 프로그래밍 팀 프로젝트 (System-On-chip Design & Programming Team/Term Project: Pingpong Game)  
+# 핑퐁게임: SOC 설계 및 프로그래밍 팀 프로젝트 (Team Project: Pingpong Game)  
 
 ---
 
@@ -33,6 +33,14 @@ Xilinx사의 Vivado라는 SoC 칩을 실습에 사용함
 - Verilog를 이용한 하드웨어(논리회로 IP 모듈)을 설계
 - 해당 하드웨어 모듈의 포트 번호를 받아 칩을 소프트웨어적으로 제어하기 위한 C언어 기반의 SDK Firmware를 설계함
 
+
+### +)역할 분담
+
+- 다른 조원들이 HW Verilog 설계를 담당했으며, 
+
+- 본인은 SW,SDK 개발을 담당하여 핑퐁게임의 메인 제어 알고리즘을 설계하였고 구현하였다.
+
+- 모두 맞는 옷을 입고 개발을 해서인지 이렇게 매력적인 프로젝트 결과가 나온 것 같다.
 
 ---
 
